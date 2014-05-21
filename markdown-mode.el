@@ -4522,7 +4522,9 @@ This is an exact copy of `line-number-at-pos' for use in emacs21."
 (defun markdown-nobreak-p ()
   "Return nil if it is acceptable to break the current line at the point."
   ;; inside in square brackets (e.g., link anchor text)
-  (looking-back "\\[[^]]*"))
+  (or (looking-back "\\[[^]]*")
+      ;; In a liquid block (e.g. [..]({% post_url .... %}) )
+      (looking-back "{%[^%]*")))
 
 (defun markdown-adaptive-fill-function ()
   "Return prefix for filling paragraph or nil if not determined."
